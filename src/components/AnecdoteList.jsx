@@ -19,11 +19,16 @@ const AnecdoteList  = () => {
 
   const dispatch = useDispatch()
   //sort anecdotes by votes
-  const anecs = useSelector(state => [...state].sort((a, b) => b.votes - a.votes))
+  const filterWord = useSelector(state => state.filter) // Get the filter word
+  const sortedFilteredAnecs = useSelector(state => 
+                                            state.anecdotes
+                                            .filter(anecdote => anecdote.content.toLowerCase().includes(filterWord.toLowerCase())) // Filter by word
+                                            .sort((a, b) => b.votes - a.votes) // Sort by votes
+  )
 
   return(
     <ul>
-      {anecs.map(anec =>
+      {sortedFilteredAnecs.map(anec =>
         <Anecdote
           key={anec.id}
           anecdote={anec}
