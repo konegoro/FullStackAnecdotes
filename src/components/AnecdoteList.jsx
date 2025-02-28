@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { voteFunction } from '../reducers/anecdoteReducer'
-import { notificationChange } from '../reducers/notificationReducer'
+import { updateVotes } from '../reducers/anecdoteReducer'
+import {setNotification} from '../reducers/notificationReducer'
 
 const Anecdote = ({ anecdote, handleClick }) => {
   return(
@@ -18,14 +18,17 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 const AnecdoteList  = () => {
 
+  const timeout = 5000;
+
   const dispatch = useDispatch()
 
   const voteHandler = (anecdote) => {
-    dispatch(voteFunction(anecdote.id))
+    const newAnecodte = {...anecdote, votes: anecdote.votes + 1}
+    dispatch(updateVotes(anecdote.id, newAnecodte))
 
     //after create the anecodte, we will desplay a notification por five seconds
-    dispatch(notificationChange(`you voted for '${anecdote.content}'`))
-    setTimeout(() => dispatch(notificationChange('')), 5000)
+    dispatch(setNotification(`you voted for '${anecdote.content}'`, timeout))
+
   } 
 
 
